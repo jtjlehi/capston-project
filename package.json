@@ -4,7 +4,7 @@
   "description": "A dice game API with a base example implementation. The backend is written in typescript node.js and uses a mongo database.",
   "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "nodemon -w dist ./node_modules/.bin/jasmine — config=jasmine.json"
   },
   "repository": {
     "type": "git",
@@ -18,5 +18,10 @@
   "homepage": "https://github.com/jtjlehi/capston-project#readme",
   "dependencies": {
     "typescript": "^2.8.3"
+  },
+  "devDependencies": {
+    "@types/jasmine": "^2.8.6",
+    "jasmine": "^3.1.0",
+    "nodemon": "^1.17.3"
   }
 }
