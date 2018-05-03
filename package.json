@@ -4,7 +4,9 @@
   "description": "A dice game API with a base example implementation. The backend is written in typescript node.js and uses a mongo database.",
   "main": "dist/main.js",
   "scripts": {
-    "test": "nodemon -w dist ./node_modules/.bin/jasmine — config=jasmine.json"
+    "build": "rm -rf dist && tsc",
+    "test": "npm run build && nodemon -w dist ./node_modules/.bin/jasmine — config=jasmine.json && npm run clean",
+    "clean": "rm -rf dist"
   },
   "repository": {
     "type": "git",
