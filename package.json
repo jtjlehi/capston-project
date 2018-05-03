@@ -2,7 +2,7 @@
   "name": "capstone-project",
   "version": "1.0.0",
   "description": "A dice game API with a base example implementation. The backend is written in typescript node.js and uses a mongo database.",
-  "main": "main.js",
+  "main": "dist/main.js",
   "scripts": {
     "test": "nodemon -w dist ./node_modules/.bin/jasmine — config=jasmine.json"
   },
