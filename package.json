@@ -19,11 +19,13 @@
   },
   "homepage": "https://github.com/jtjlehi/capston-project#readme",
   "dependencies": {
+    "request": "^2.85.0",
     "typescript": "^2.8.3"
   },
   "devDependencies": {
     "@types/jasmine": "^2.8.6",
     "@types/node": "^10.0.4",
+    "@types/request": "^2.47.0",
     "jasmine": "^3.1.0",
     "nodemon": "^1.17.3"
   }
