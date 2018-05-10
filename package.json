@@ -5,7 +5,7 @@
   "main": "dist/main.js",
   "scripts": {
     "build": "rm -rf dist && tsc",
-    "test": "npm run build && JASMINE_CONFIG_PATH=jasmine.json jasmine && npm run clean",
+    "test": "npm run build && nodemon -w dist ./jasmine_runner && npm run clean",
     "clean": "rm -rf dist"
   },
   "repository": {
