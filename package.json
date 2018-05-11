@@ -6,7 +6,8 @@
   "scripts": {
     "build": "rm -rf dist && tsc",
     "test": "npm run build && nodemon -w dist ./jasmine_runner && npm run clean",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist",
+    "serve_dev": "npm run build && nodemon -w dist ./dist/main.js && npm run clean"
   },
   "repository": {
     "type": "git",
