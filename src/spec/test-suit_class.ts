@@ -13,11 +13,11 @@ export default class TestSuit {
         let res: object;
         xhr.onreadystatechange = () => {
             if (xhr.readyState === xhr.DONE) {
-                colorLog(color.FgBlue, description);
+                colorLog(color.BgBlue, description);
                 try {
                     const res = JSON.parse(xhr.responseText);
                     if (res) {
-                        this._objectExpect(res, expectedResponse);
+                        this._objectExpect(expectedResponse, {status: xhr.status, body: res});
                     } else {
                         colorLog(color.BgRed, 'Response is falsy');
                     }
@@ -36,13 +36,13 @@ export default class TestSuit {
         console.log(comparedObj);
         colorLog(
             comparedObj.bool ? color.BgGreen : color.BgRed,
-            `Expected: ${JSON.stringify(input)} = ${JSON.stringify(expected)}`
+            `Expected: ${JSON.stringify(expected)} = ${JSON.stringify(input)}`
         );
         comparedObj.same.forEach(key => {
-            colorLog(color.BgGreen, key);
+            colorLog(color.FgGreen, key);
         });
         comparedObj.diff.forEach(key => {
-            colorLog(color.BgRed, key);
+            colorLog(color.FgRed, key);
         })
     }
     private _compareObj(x: object, y: object): {bool: boolean, same: string[], diff: string[]} {
