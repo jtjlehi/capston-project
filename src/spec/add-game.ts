@@ -7,7 +7,7 @@ import { NewGameResponse } from './new-game-response_interface';
 export class AddGameTestSuit extends TestSuit {
     url: string = "http://localhost:3000/create_game";
     method: string =  'POST';
-    tests: Array<[CreateGameObj, NewGameResponse, string]> = [
+    tests: Array<[CreateGameObj | object, NewGameResponse, string]> = [
         [
             {
                 name: 'good local game',
@@ -122,6 +122,56 @@ export class AddGameTestSuit extends TestSuit {
                     message: 'cannot have more then 6 players'
                 }
             }, 'Online game with to many players'
+        ],
+        [
+            {
+                name: 'My game with only a name'
+            },
+            {
+                status: 400,
+                body: {
+                    errorCode: 400,
+                    message: 'Request body must contain name, playerCount, and body'
+                }
+            }, 'Game that has only a name'
+        ],
+        [
+            {
+                playerCount: 0
+            },
+            {
+                status: 400,
+                body: {
+                    errorCode: 400,
+                    message: 'Request body must contain name, playerCount, and body'
+                }
+            }, 'Game that has only a playerCount that wouldn\'t pass the count test'
+        ],
+        [
+            {
+                type: 0
+            },
+            {
+                status: 400,
+                body: {
+                    errorCode: 400,
+                    message: 'Request body must contain name, playerCount, and body'
+                }
+            }, 'Game that has only a type that would pass the type test'
+        ],
+        [
+            {
+                name: 'Game with bad type',
+                type: 4,
+                playerCount: 5
+            },
+            {
+                status: 406,
+                body: {
+                    errorCode: 406,
+                    message: "property 'type' must be either 0 or 1"
+                }
+            }, 'Game that has the wrong type'
         ]
     ];
     public runTests() {
