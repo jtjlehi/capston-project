@@ -7,7 +7,7 @@ import { NewGameResponse } from './new-game-response_interface';
 export class AddGameTestSuit extends TestSuit {
     url: string = "http://localhost:3000/create_game";
     method: string =  'POST';
-    tests: Array<[CreateGameObj, NewGameResponse]> = [
+    tests: Array<[CreateGameObj, NewGameResponse, string]> = [
         [
             {
                 name: 'good local game',
@@ -21,7 +21,7 @@ export class AddGameTestSuit extends TestSuit {
                     type: GameType.Local,
                     players: []
                 }
-            }
+            }, 'Good local Game'
         ],
         [
             {
@@ -36,7 +36,7 @@ export class AddGameTestSuit extends TestSuit {
                     type: GameType.Local,
                     players: []
                 }
-            }
+            }, "Good Local Game 2"
         ],
         [
             {
@@ -47,11 +47,10 @@ export class AddGameTestSuit extends TestSuit {
             {
                 status: 406,
                 body: {
-                    name: 'game with to few players',
-                    type: GameType.Local,
-                    players: []
+                    errorCode: 406,
+                    message: 'cannot have less then 2 players'
                 }
-            }
+            }, "Local game with to few players"
         ],
         [
             {
@@ -62,11 +61,10 @@ export class AddGameTestSuit extends TestSuit {
             {
                 status: 406,
                 body: {
-                    name: 'My second game with to few players',
-                    type: GameType.Local,
-                    players: []
+                    errorCode: 406,
+                    message: 'cannot have less then 2 players'
                 }
-            }
+            }, "Local game with to few players 2"
         ],
         [
             {
@@ -77,11 +75,10 @@ export class AddGameTestSuit extends TestSuit {
             {
                 status: 406,
                 body: {
-                    name: 'local game with to many players',
-                    type: GameType.Local,
-                    players: []
+                    errorCode: 406,
+                    message: 'cannot have more then 6 players'
                 }
-            }
+            }, "Local game with to many players"
         ],
         [
             {
@@ -96,7 +93,7 @@ export class AddGameTestSuit extends TestSuit {
                     type: GameType.Online,
                     players: []
                 }
-            }
+            }, "Good online game"
         ],
         [
             {
@@ -107,11 +104,10 @@ export class AddGameTestSuit extends TestSuit {
             {
                 status: 406,
                 body: {
-                    name: 'My online game with to few players',
-                    type: GameType.Online,
-                    players: []
+                    errorCode: 406,
+                    message: 'cannot have less then 2 players'
                 }
-            }
+            }, "online game with to few players"
         ],
         [
             {
@@ -122,17 +118,16 @@ export class AddGameTestSuit extends TestSuit {
             {
                 status: 406,
                 body: {
-                    name: 'My online game with to many players',
-                    type: GameType.Online,
-                    players: []
+                    errorCode: 406,
+                    message: 'cannot have more then 6 players'
                 }
-            }
+            }, 'Online game with to many players'
         ]
     ];
     public runTests() {
         colorLog(color.BgCyan, 'Starting the AddGame test suit');
         this.tests.forEach((test, count) => {
-            this.addCall(test[0], test[1], 'Test ' + count);
+            this.addCall(test[0], test[1], 'Test: ' + test[2]);
         });
     }
 }
