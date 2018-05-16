@@ -8,11 +8,12 @@ export default class TestSuit {
         this._url = '/';
         this._method = 'GET';
     }
-    public addCall(callObject: object, expectedResponse: object): void {
+    public addCall(callObject: object, expectedResponse: object, description: string): void {
         const xhr = new XMLHttpRequest();
         let res: object;
         xhr.onreadystatechange = () => {
             if (xhr.readyState === xhr.DONE) {
+                colorLog(color.FgBlue, description);
                 try {
                     const res = JSON.parse(xhr.responseText);
                     if (res) {
