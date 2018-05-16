@@ -27,7 +27,7 @@ const color = {
 }
 
 function colorLog(textColor: string, text: string) {
-    console.log(`textColor${text}color.Reset`)
+    console.log(`${textColor}${text}${color.Reset}`);
 }
 
 export { color, colorLog };
