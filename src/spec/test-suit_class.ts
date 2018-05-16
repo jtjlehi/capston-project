@@ -1,4 +1,5 @@
 import { colorLog, color } from "./color";
+import { XMLHttpRequest } from "xmlhttprequest";
 
 export default class TestSuit {
     protected _url: string;
@@ -11,16 +12,31 @@ export default class TestSuit {
         const xhr = new XMLHttpRequest();
         let res: object;
         xhr.onreadystatechange = () => {
-            if (xhr.status === xhr.DONE) {
-                res = xhr.response;
-                this._objectExpect(res, expectedResponse);
+            if (xhr.readyState === xhr.DONE) {
+                try {
+                    const res = JSON.parse(xhr.responseText);
+                    if (res) {
+                        this._objectExpect(res, expectedResponse);
+                    } else {
+                        colorLog(color.BgRed, 'Response is falsy');
+                    }
+                } catch {
+                    colorLog(color.BgRed, 'Response not a json object');
+                    res = xhr.responseText;
+                }
             }
         }
-        xhr.open(this._method, this._url);
+        xhr.open("POST", "http://localhost:3000/create_game");
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.send(JSON.stringify(callObject));
     }
     private _objectExpect(input: object, expected: object) {
         let comparedObj = this._compareObj(input, expected);
-        colorLog(comparedObj.bool ? color.BgGreen : color.BgRed, `Expected: ${input} = ${expected}`);
+        console.log(comparedObj);
+        colorLog(
+            comparedObj.bool ? color.BgGreen : color.BgRed,
+            `Expected: ${JSON.stringify(input)} = ${JSON.stringify(expected)}`
+        );
         comparedObj.same.forEach(key => {
             colorLog(color.BgGreen, key);
         });
