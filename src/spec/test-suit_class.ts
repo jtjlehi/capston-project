@@ -14,6 +14,7 @@ export default class TestSuit {
         xhr.onreadystatechange = () => {
             if (xhr.readyState === xhr.DONE) {
                 colorLog(color.BgBlue, description);
+                colorLog(color.FgCyan, 'call object: ' + JSON.stringify(callObject));
                 try {
                     const res = JSON.parse(xhr.responseText);
                     if (res) {
@@ -33,7 +34,6 @@ export default class TestSuit {
     }
     private _objectExpect(input: object, expected: object) {
         let comparedObj = this._compareObj(input, expected);
-        console.log(comparedObj);
         colorLog(
             comparedObj.bool ? color.BgGreen : color.BgRed,
             `Expected: ${JSON.stringify(expected)} = ${JSON.stringify(input)}`
