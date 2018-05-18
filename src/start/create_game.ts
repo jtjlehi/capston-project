@@ -1,8 +1,8 @@
 import * as express from 'express';
 import { CreateGameObj } from './typings/create_game_obj-interface';
 import { GameType } from './typings/game_type-enum';
-import { NewGameResponseBody } from '../spec/new-game-response_interface';
-import { ErrorMessage } from '../spec/error-response_interface';
+import { NewGameResponseBody } from './typings/new-game-response_interface';
+import { ErrorMessage } from './typings/error-response_interface';
 
 export class CreateGame {
     public static post(req: express.Request, res: express.Response) {
@@ -33,6 +33,7 @@ export class CreateGame {
                 type: body.type,
                 players: []
             }
+            this._handleOnlineGame(body);
         } else if (body.type === GameType.Local) {
             res.status(201);
             responseObj = {
@@ -40,13 +41,14 @@ export class CreateGame {
                 type: body.type,
                 players: []
             }
+            this._handleLocalGame(body);
         } else {
             res.status(406);
             responseObj = {
                 errorCode: 406,
                 message: "property 'type' must be either 0 or 1"
             }
-        } 
+        }
         res.send(JSON.stringify(responseObj));
     }
     private static _handleOnlineGame(body: CreateGameObj){

@@ -1,5 +1,5 @@
-import { GameType } from "../start/typings/game_type-enum";
-import { ErrorMessage } from "./error-response_interface";
+import { GameType } from "./../src/start/typings/game_type-enum";
+import { ErrorMessage } from "./../src/start/typings/error-response_interface";
 
 export interface NewGameResponseBody {
     name: string;
