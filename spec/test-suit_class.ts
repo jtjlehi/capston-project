@@ -1,51 +1,55 @@
 import { colorLog, color } from "./color";
 import { XMLHttpRequest } from "xmlhttprequest";
 
-export default class TestSuit {
-    protected _url: string;
-    protected _method: string;
-    constructor() {
-        this._url = '/';
-        this._method = 'GET';
-    }
-    public addCall(callObject: object, expectedResponse: object, description: string): void {
+export default abstract class TestSuit {
+    protected static _url: string;
+    protected static _method: string;
+    protected static passArray: boolean[] = [];
+    protected static _name: string;
+    protected static _addCall(callObject: object, expectedResponse: object, description: string, cbk: (pass: boolean) => void): void {
         const xhr = new XMLHttpRequest();
         let res: object;
         xhr.onreadystatechange = () => {
             if (xhr.readyState === xhr.DONE) {
-                colorLog(color.BgBlue, description);
-                colorLog(color.FgCyan, 'call object: ' + JSON.stringify(callObject));
+                colorLog(color.FgWhite, '-------------------------------------------------');
+                colorLog(color.FgCyan, description);
+                colorLog(color.FgCyan, '                call object:' + JSON.stringify(callObject));
                 try {
                     const res = JSON.parse(xhr.responseText);
                     if (res) {
                         this._objectExpect(expectedResponse, {status: xhr.status, body: res});
+                        cbk(true);
                     } else {
                         colorLog(color.BgRed, 'Response is falsy');
+                        cbk(false);
                     }
                 } catch {
                     colorLog(color.BgRed, 'Response not a json object');
-                    res = xhr.responseText;
+                    cbk(false);
                 }
             }
         }
-        xhr.open("POST", "http://localhost:3000/create_game");
+        xhr.open(this._method, "http://localhost:3000" + this._url);
         xhr.setRequestHeader("Content-Type", "application/json");
         xhr.send(JSON.stringify(callObject));
     }
-    private _objectExpect(input: object, expected: object) {
+    private static _objectExpect(input: object, expected: object) {
         let comparedObj = this._compareObj(input, expected);
         colorLog(
             comparedObj.bool ? color.BgGreen : color.BgRed,
-            `Expected: ${JSON.stringify(expected)} = ${JSON.stringify(input)}`
+            comparedObj.bool ? 'Pass' : 'Fail'
         );
-        comparedObj.same.forEach(key => {
-            colorLog(color.FgGreen, key);
-        });
-        comparedObj.diff.forEach(key => {
-            colorLog(color.FgRed, key);
-        })
+        if (comparedObj.bool === false) {
+            colorLog(color.BgRed, `Expected: ${JSON.stringify(expected)} = ${JSON.stringify(input)}`);
+            comparedObj.same.forEach(key => {
+                colorLog(color.FgGreen, key);
+            });
+            comparedObj.diff.forEach(key => {
+                colorLog(color.FgRed, key);
+            });
+        }
     }
-    private _compareObj(x: object, y: object): {bool: boolean, same: string[], diff: string[]} {
+    private static _compareObj(x: object, y: object): {bool: boolean, same: string[], diff: string[]} {
         let sameObj: {bool: boolean, same: string[], diff: string[]} = {
             bool: true,
             same: [],
@@ -70,4 +74,15 @@ export default class TestSuit {
         };
         return sameObj;
     }
+    protected static _logResults() {
+        colorLog(color.FgWhite, '-------------------------------------------------');
+        colorLog(color.BgCyan, `Results for the ${this._name} test suit`);
+        this.passArray.forEach(result => {
+            colorLog(
+                result ? color.FgGreen : color.FgRed,
+                result ? 'Pass' : 'Fail'
+            );
+        });
+    }
+    public static run: () => void;
 }

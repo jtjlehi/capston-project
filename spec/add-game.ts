@@ -5,9 +5,11 @@ import { GameType } from '../src/typings/game-types';
 import { NewGameResponse } from '../src/typings/response-types';
 
 export class AddGameTestSuit extends TestSuit {
-    url: string = "http://localhost:3000/create_game";
-    method: string =  'POST';
-    tests: Array<[CreateGameObj | object, NewGameResponse, string]> = [
+    protected static _url: string = "/create_game";
+    protected static _method: string =  "POST";
+    protected static _name = 'AddGame';
+
+    protected static tests: Array<[CreateGameObj | object, NewGameResponse, string]> = [
         [
             {
                 name: 'good local game',
@@ -174,12 +176,16 @@ export class AddGameTestSuit extends TestSuit {
             }, 'Game that has the wrong type'
         ]
     ];
-    public runTests() {
-        colorLog(color.BgCyan, 'Starting the AddGame test suit');
-        this.tests.forEach((test, count) => {
-            this.addCall(test[0], test[1], 'Test: ' + test[2]);
+    private static runTests(testNum: number, first?: boolean) {
+        if (first) colorLog(color.BgCyan, `Starting the ${this._name} test suit`);
+        const test = this.tests[testNum];
+        this._addCall(test[0], test[1], 'Test: ' + test[2], (pass: boolean) => {
+            this.passArray.push(pass);
+            if (this.tests.length > testNum + 1) this.runTests(testNum + 1);
+            else this._logResults();
         });
     }
+    public static run() {
+        this.runTests(0, true);
+    }
 }
-const suit = new AddGameTestSuit();
-suit.runTests();
