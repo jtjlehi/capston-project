@@ -1,7 +1,6 @@
-import { GamePlayer } from './game_player-interface';
-import { GameType } from './game_type-enum';
+import { ObjectID } from "bson";
+import { GamePlayer } from "./player-types";
 import { Document } from 'mongoose';
-import { ObjectID } from 'mongodb';
 
 export interface LocalGame extends Document {
     name: string;
@@ -12,4 +11,8 @@ export interface OnlineGame extends Document {
     name: string;
     type: GameType.Online;
     players: ObjectID[];
+}
+export enum GameType {
+    Local,
+    Online
 }

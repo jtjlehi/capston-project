@@ -5,8 +5,9 @@
   "main": "dist/main.js",
   "scripts": {
     "build": "rm -rf dist && tsc",
-    "test": "npm run build && nodemon -w dist ./jasmine_runner && npm run clean",
-    "clean": "rm -rf dist",
+    "build_test": "rm -rf spec-dist && tsc -p spec-tsconfig.json",
+    "test": "npm run build_test && nodemon -w  spec-dist ./spec-dist/spec/spec-runner.js && npm run clean",
+    "clean": "rm -rf dist && rm -rf spec-dist",
     "serve_dev": "npm run build && nodemon -w dist ./dist/main.js && npm run clean"
   },
   "repository": {
@@ -33,7 +34,7 @@
     "@types/jasmine": "^2.8.6",
     "@types/jasmine-ajax": "^3.1.37",
     "@types/mongodb": "^3.0.18",
-    "@types/mongoose": "^5.0.13",
+    "@types/mongoose": "^5.0.14",
     "@types/node": "^10.0.4",
     "@types/request": "^2.47.0",
     "expect": "^22.4.3",

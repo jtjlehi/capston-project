@@ -1,8 +1,8 @@
 import { color, colorLog } from './color';
 import TestSuit from './test-suit_class';
-import { CreateGameObj } from './../src/start/typings/create_game_obj-interface';
-import { GameType } from './../src/start/typings/game_type-enum';
-import { NewGameResponse } from './../src/start/typings/new-game-response_interface';
+import { CreateGameObj } from '../src/typings/requests-types';
+import { GameType } from '../src/typings/game-types';
+import { NewGameResponse } from '../src/typings/response-types';
 
 export class AddGameTestSuit extends TestSuit {
     url: string = "http://localhost:3000/create_game";

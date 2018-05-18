@@ -1,6 +1,10 @@
-import { PlayerType } from './player_type-enum';
-import { Document } from 'mongoose';
+import { Document } from "mongoose";
 
+export enum PlayerType {
+    Local,
+    Online,
+    Computer
+}
 export interface GamePlayer extends Document {
     name: string;
     type: PlayerType;

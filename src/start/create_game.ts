@@ -1,8 +1,7 @@
 import * as express from 'express';
-import { CreateGameObj } from './typings/create_game_obj-interface';
-import { GameType } from './typings/game_type-enum';
-import { NewGameResponseBody } from './typings/new-game-response_interface';
-import { ErrorMessage } from './typings/error-response_interface';
+import { CreateGameObj } from './../typings/requests-types';
+import { GameType } from './../typings/game-types';
+import { NewGameResponseBody, ErrorMessage } from './../typings/response-types';
 
 export class CreateGame {
     public static post(req: express.Request, res: express.Response) {
