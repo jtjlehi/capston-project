@@ -4,9 +4,13 @@ import { GameType } from './../typings/game-types';
 import { NewGameResponseBody, ErrorMessage } from './../typings/response-types';
 
 export class CreateGame {
-    public static post(req: express.Request, res: express.Response) {
+    public static post = async (
+        req: express.Request,
+        res: express.Response
+    ): Promise<NewGameResponseBody | ErrorMessage> => {
         const body: CreateGameObj = req.body;
         let responseObj: NewGameResponseBody | ErrorMessage | undefined;
+        let savedData: Promise<boolean>;
         if (!(body.name && (body.type || body.type === 0) && (body.playerCount || body.playerCount === 0))) {
             res.status(400);
             responseObj = {
@@ -32,7 +36,7 @@ export class CreateGame {
                 type: body.type,
                 players: []
             }
-            this._handleOnlineGame(body);
+            await CreateGame._handleOnlineGame(body);
         } else if (body.type === GameType.Local) {
             res.status(201);
             responseObj = {
@@ -40,7 +44,8 @@ export class CreateGame {
                 type: body.type,
                 players: []
             }
-            this._handleLocalGame(body);
+            console.log(body);
+            await CreateGame._handleLocalGame(body);
         } else {
             res.status(406);
             responseObj = {
@@ -49,11 +54,18 @@ export class CreateGame {
             }
         }
         res.send(JSON.stringify(responseObj));
+        return responseObj;
     }
-    private static _handleOnlineGame(body: CreateGameObj){
-
+    private static _handleOnlineGame = async (
+        body: CreateGameObj
+    ): Promise<boolean> => {
+        console.log('saving the data');
+        return true;
     }
-    private static _handleLocalGame(body: CreateGameObj) {
-
+    private static _handleLocalGame = async (
+        body: CreateGameObj
+    ): Promise<Boolean> => {
+        console.log('saving the data');
+        return true;
     }
 }
