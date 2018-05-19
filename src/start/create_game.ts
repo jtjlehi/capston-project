@@ -60,13 +60,13 @@ export class CreateGame {
     private static _handleOnlineGame = async (
         body: CreateGameObj
     ): Promise<void> => {
-        await CreateGame._gameDB.saveOnlineGame(body);
+        await CreateGame._gameDB.saveGame(body);
         return;
     }
     private static _handleLocalGame = async (
         body: CreateGameObj
     ): Promise<void> => {
-        await CreateGame._gameDB.saveLocalGame(body);
+        await CreateGame._gameDB.saveGame(body);
         return;
     }
 }
