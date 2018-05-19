@@ -60,14 +60,14 @@ export class CreateGame {
     }
     private static _handleOnlineGame = async (
         body: CreateGameObj
-    ): Promise<boolean> => {
-        console.log('saving the data');
-        return true;
+    ): Promise<void> => {
+        await CreateGame._gameDB.saveOnlineGame(body);
+        return;
     }
     private static _handleLocalGame = async (
         body: CreateGameObj
-    ): Promise<Boolean> => {
-        console.log('saving the data');
-        return true;
+    ): Promise<void> => {
+        await CreateGame._gameDB.saveLocalGame(body);
+        return;
     }
 }
