@@ -5,6 +5,7 @@ import { GameType, LocalGame, OnlineGame } from "../typings/game-types";
 import { GamePlayer, PlayerType } from "./../typings/player-types"
 import { CreateGameObj } from "../typings/requests-types";
 import { GameModels } from "./game-model";
+import { NewGameResponseBody } from "../typings/response-types";
 
 export class GameDB {
     // game schema class
@@ -15,33 +16,40 @@ export class GameDB {
     }
     public saveGame = async (
         createGameObj: CreateGameObj
-    ): Promise<any> => {
+    ): Promise<NewGameResponseBody> => {
         try {
             await this._connect();
-            const newGame: LocalGame | OnlineGame = await this._addGame(createGameObj);
+            const addedGame: LocalGame | OnlineGame = await this._saveGame(createGameObj);
             disconnect();
-            return;
+            return {
+                name: addedGame.name,
+                playerNum: addedGame.playerNum,
+                players: addedGame.players,
+                type: createGameObj.type
+            }
         }
-        catch(err) {
-            console.log(err);
-            return err;
+        catch (err) {
+            throw err;
         }
     }
-    private _addGame = async (
+    private _saveGame = async (
         createGameObj: CreateGameObj
-    ): Promise<LocalGame | OnlineGame> => {
-        let newGame: LocalGame | OnlineGame;
-        // define which model to follow
-        if (createGameObj.type === GameType.Local) {
-            newGame = new this._models.localGame();
-        } else if (createGameObj.type === GameType.Online) {
-            newGame = new this._models.localGame();
-        } else throw new Error('Invalid game type.');
-        // give it name and playerNum
-        newGame.name = createGameObj.name;
-        newGame.playerNum = createGameObj.playerCount;
-        console.log(newGame);
-        return newGame;
+    ): Promise<OnlineGame | LocalGame> => {
+        try {
+            let createObj = {name: createGameObj.name, playerNum: createGameObj.playerCount};
+            let newGame: LocalGame | OnlineGame;
+            if (createGameObj.type === GameType.Local) {
+                newGame = await this._models.localGame.create(createObj);
+            } else if (createGameObj.type === GameType.Online) {
+                newGame = await this._models.onlineGame.create(createObj);
+            } else throw new Error("property 'type' must be either 0 or 1");
+            return newGame;
+        } catch (error) {
+            if (error.errors && error.errors.playerNum) {
+                throw new Error(error.errors.playerNum.message);
+            }
+            throw error;
+        }
     }
 
 }

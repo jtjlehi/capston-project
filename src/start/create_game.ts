@@ -19,54 +19,19 @@ export class CreateGame {
                 errorCode: 400,
                 message: "Request body must contain name, playerCount, and body"
             }
-        } else if (body.playerCount < 2) {
-            res.status(406);
-            responseObj = {
-                errorCode: 406,
-                message: "cannot have less then 2 players"
-            }
-        } else if (body.playerCount > 6) {
-            res.status(406);
-            responseObj = {
-                errorCode: 406,
-                message: "cannot have more then 6 players"
-            }
-        } else if (body.type === GameType.Online) {
-            res.status(201);
-            responseObj = {
-                name: body.name,
-                type: body.type,
-                players: []
-            }
-            await CreateGame._handleOnlineGame(body);
-        } else if (body.type === GameType.Local) {
-            res.status(201);
-            responseObj = {
-                name: body.name,
-                type: body.type,
-                players: []
-            }
-            await CreateGame._handleLocalGame(body);
         } else {
-            res.status(406);
-            responseObj = {
-                errorCode: 406,
-                message: "property 'type' must be either 0 or 1"
+            try {
+                responseObj = await CreateGame._gameDB.saveGame(body);
+                res.status(201);
+            } catch (err) {
+                responseObj = {
+                    errorCode: 406,
+                    message: err.message
+                }
+                res.status(406);
             }
-        }
+        } 
         res.send(JSON.stringify(responseObj));
         return responseObj;
-    }
-    private static _handleOnlineGame = async (
-        body: CreateGameObj
-    ): Promise<void> => {
-        await CreateGame._gameDB.saveGame(body);
-        return;
-    }
-    private static _handleLocalGame = async (
-        body: CreateGameObj
-    ): Promise<void> => {
-        await CreateGame._gameDB.saveGame(body);
-        return;
     }
 }
