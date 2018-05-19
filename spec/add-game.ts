@@ -177,6 +177,34 @@ export class AddGameTestSuit extends TestSuit {
                     message: "property 'type' must be either 0 or 1"
                 }
             }, 'Game that has the wrong type'
+        ],
+        [
+            {
+                name: 'My good online game',
+                type: GameType.Online,
+                playerCount: 4
+            },
+            {
+                status: 406,
+                body: {
+                    errorCode: 406,
+                    message: "Online game with that name is in progress already"
+                }
+            }, "Online Game with a name that already exists"
+        ],
+        [
+            {
+                name: 'good local game',
+                type: GameType.Local,
+                playerCount: 3
+            },
+            {
+                status: 406,
+                body: {
+                    errorCode: 406,
+                    message: "Local game with that name is in progress already"
+                }
+            }, 'Local Game with a name that already exists'
         ]
     ];
     private static runTests(testNum: number, first?: boolean) {
