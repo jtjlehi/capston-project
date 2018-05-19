@@ -46,7 +46,6 @@ export class CreateGame {
                 type: body.type,
                 players: []
             }
-            console.log(body);
             await CreateGame._handleLocalGame(body);
         } else {
             res.status(406);

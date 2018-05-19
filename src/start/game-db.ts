@@ -1,4 +1,4 @@
-import { Schema, Model, model, connect, Mongoose } from "mongoose";
+import { Schema, Model, model, connect, Mongoose, disconnect } from "mongoose";
 import { ObjectID } from "mongodb";
 
 import { GameType, LocalGame, OnlineGame } from "../typings/game-types";
@@ -44,14 +44,27 @@ export class GameDB {
     public saveOnlineGame = async (
         createGameObj: CreateGameObj
     ): Promise<any> => {
-        console.log('in the db online saver');
-        return true;
+        try {
+            await this._connect();
+            disconnect();
+            return;
+        }
+        catch(err) {
+            return err
+        }
+        
     }
     public saveLocalGame = async (
         createGameObj: CreateGameObj
     ): Promise<any> => {
-        console.log('in the db local saver');
-        return true;
+        try {
+            await this._connect();
+            disconnect();
+            return;
+        }
+        catch(err) {
+            return err;
+        }
     }
 
 }
