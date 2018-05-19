@@ -62,7 +62,7 @@ export class GameModels {
             validate : {
                 isAsync: true,
                 validator: this._uniqueGameNameValidator(GameType.Online),
-                msg: 'That game name is being used in an online right now.'
+                msg: 'Online game with that name is in progress already'
             }
         },
         players: {
@@ -83,7 +83,7 @@ export class GameModels {
             validate : {
                 isAsync: true,
                 validator: this._uniqueGameNameValidator(GameType.Local),
-                msg: 'That game name is being used in a local game right now.'
+                msg: 'Local game with that name is in progress already'
             }
         },
         players: {

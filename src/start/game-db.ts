@@ -47,6 +47,8 @@ export class GameDB {
         } catch (error) {
             if (error.errors && error.errors.playerNum) {
                 throw new Error(error.errors.playerNum.message);
+            } if (error.errors && error.errors.name) {
+                throw new Error(error.errors.name.message);
             }
             throw error;
         }
