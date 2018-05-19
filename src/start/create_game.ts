@@ -2,8 +2,10 @@ import * as express from 'express';
 import { CreateGameObj } from './../typings/requests-types';
 import { GameType } from './../typings/game-types';
 import { NewGameResponseBody, ErrorMessage } from './../typings/response-types';
+import { GameDB } from './game-db';
 
 export class CreateGame {
+    private static _gameDB = new GameDB();
     public static post = async (
         req: express.Request,
         res: express.Response
