@@ -3,6 +3,7 @@ import { GameType } from "./game-types";
 export interface NewGameResponseBody {
     name: string;
     type: GameType;
+    playerNum: number;
     players: Array<object> | Array<never>;
 }
 export interface NewGameResponse {

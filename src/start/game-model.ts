@@ -71,8 +71,8 @@ export class GameModels {
         },
         playerNum: {
             type: Number,
-            min: 2,
-            max: 6,
+            min: [2, 'cannot have less then 2 players'],
+            max: [6, 'cannot have more then 6 players'],
             required: true
         }
     });
@@ -86,14 +86,14 @@ export class GameModels {
                 msg: 'That game name is being used in a local game right now.'
             }
         },
-        player: {
+        players: {
             type: [this._playerSchema],
             default: []
         },
         playerNum: {
             type: Number,
-            min: 2,
-            max: 6,
+            min: [2, 'cannot have less then 2 players'],
+            max: [6, 'cannot have more then 6 players'],
             required: true
         }
     });

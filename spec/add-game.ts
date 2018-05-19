@@ -21,7 +21,8 @@ export class AddGameTestSuit extends TestSuit {
                 body: {
                     name: 'good local game',
                     type: GameType.Local,
-                    players: []
+                    players: [],
+                    playerNum: 3
                 }
             }, 'Good local Game'
         ],
@@ -36,7 +37,8 @@ export class AddGameTestSuit extends TestSuit {
                 body: {
                     name: 'second good local game',
                     type: GameType.Local,
-                    players: []
+                    players: [],
+                    playerNum: 2
                 }
             }, "Good Local Game 2"
         ],
@@ -93,7 +95,8 @@ export class AddGameTestSuit extends TestSuit {
                 body: {
                     name: 'My good online game',
                     type: GameType.Online,
-                    players: []
+                    players: [],
+                    playerNum: 4
                 }
             }, "Good online game"
         ],
