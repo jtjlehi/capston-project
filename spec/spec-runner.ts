@@ -7,6 +7,7 @@ import { AddLocalPlayer } from "./add-local-player";
         await connect('mongodb://localhost/game');
         await connection.dropDatabase();
         await AddGameTestSuit.run();
+        await AddLocalPlayer.run();
         await disconnect();
     } catch(error) {
         console.log(error.message);
