@@ -1,12 +1,12 @@
 import { Schema, Model, model, SchemaTypeOpts } from "mongoose";
-import { GamePlayer, PlayerType } from "../typings/player-types";
+import { GamePlayer, PlayerType, GamePlayerDoc } from "../typings/player-types";
 import { GameType, OnlineGame, LocalGame } from "../typings/game-types";
 
 export class GameModels {
     // object id interface
     private _objectId = Schema.Types.ObjectId;
     // model type declaration
-    public player: Model<GamePlayer>;
+    public player: Model<GamePlayerDoc>;
     public onlineGame: Model<OnlineGame>;
     public localGame: Model<LocalGame>;
     // validators
@@ -98,7 +98,7 @@ export class GameModels {
         }
     });
     constructor() {
-        this.player = model<GamePlayer>('LocalPlayer', this._playerSchema, 'LocalPlayers');
+        this.player = model<GamePlayerDoc>('LocalPlayer', this._playerSchema, 'LocalPlayers');
         this.onlineGame =  model<OnlineGame>('OnlineGame', this._onlineGameSchema, 'OnlineGames');
         this.localGame = model<LocalGame>('LocalGame', this._localGameSchema, 'LocalGames');
     }

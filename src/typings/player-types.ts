@@ -5,7 +5,9 @@ export enum PlayerType {
     Online,
     Computer
 }
-export interface GamePlayer extends Document {
+export interface GamePlayerDoc extends Document, GamePlayer {
+}
+export interface GamePlayer {
     name: string;
     type: PlayerType;
     score: number;
