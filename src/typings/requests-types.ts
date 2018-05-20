@@ -5,3 +5,8 @@ export interface CreateGameObj {
     type: GameType;
     playerCount: number;
 }
+export interface AddLocalPlayerRequest {
+    game: string;
+    name: string;
+    computer?: boolean;
+}
