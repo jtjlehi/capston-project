@@ -18,6 +18,14 @@ export class AddLocalPlayer {
             res.status(406);
             res.send(errorMessage);
             return errorMessage;
+        } if (req.body.computer !== undefined) {
+            errorMessage = {
+                errorCode: 406,
+                message: "computer player mode has not been made yet"
+            }
+            res.status(406);
+            res.send(errorMessage);
+            return errorMessage;
         } try {
             let player: GamePlayer = new Player(req.body.player);
             res.status(201);
