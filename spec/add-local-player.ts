@@ -5,7 +5,7 @@ import { LocalPlayerResponse, ErrorMessage } from "../src/typings/response-types
 import { AddLocalPlayerRequest } from "../src/typings/requests-types";
 
 export class AddLocalPlayer extends TestSuit {
-    protected static _url: string = "/create_game";
+    protected static _url: string = "/add_local_player";
     protected static _method: string =  "POST";
     protected static _name = 'AddLocalPlayer';
     private static _tests: Array<[
@@ -128,7 +128,7 @@ export class AddLocalPlayer extends TestSuit {
                 status: 406,
                 body: {
                     errorCode: 406,
-                    message: 'you must specify a name for your player'
+                    message: 'you must specify a player and game'
                 }
             }, "don't allow unspecified an player parameter"
         ],
@@ -140,7 +140,7 @@ export class AddLocalPlayer extends TestSuit {
                 status: 406,
                 body: {
                     errorCode: 406,
-                    message: 'you cannot add a player without a game'
+                    message: 'you must specify a player and game'
                 }
             }, "don't allow unspecified an game parameter"
         ],
