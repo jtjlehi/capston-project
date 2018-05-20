@@ -14,12 +14,12 @@ export class GameDB {
     private _connect = async (): Promise<Mongoose> => {
         return connect('mongodb://localhost/game');
     }
-    public saveGame = async (
+    public addGame = async (
         createGameObj: CreateGameObj
     ): Promise<NewGameResponseBody> => {
         try {
             await this._connect();
-            const addedGame: LocalGame | OnlineGame = await this._saveGame(createGameObj);
+            const addedGame: LocalGame | OnlineGame = await this._saveNewGame(createGameObj);
             disconnect();
             return {
                 name: addedGame.name,
@@ -32,7 +32,7 @@ export class GameDB {
             throw err;
         }
     }
-    private _saveGame = async (
+    private _saveNewGame = async (
         createGameObj: CreateGameObj
     ): Promise<OnlineGame | LocalGame> => {
         try {

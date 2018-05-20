@@ -21,7 +21,7 @@ export class CreateGame {
             }
         } else {
             try {
-                responseObj = await CreateGame._gameDB.saveGame(body);
+                responseObj = await CreateGame._gameDB.addGame(body);
                 res.status(201);
             } catch (err) {
                 responseObj = {
