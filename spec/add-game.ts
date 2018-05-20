@@ -207,16 +207,18 @@ export class AddGameTestSuit extends TestSuit {
             }, 'Local Game with a name that already exists'
         ]
     ];
-    private static runTests(testNum: number, first?: boolean) {
+    private static runTests(testNum: number, first?: boolean): Promise<void> {
         if (first) colorLog(color.BgCyan, `Starting the ${this._name} test suit`);
         const test = this.tests[testNum];
-        this._addCall(test[0], test[1], 'Test: ' + test[2], (pass: boolean) => {
-            this.passArray.push(pass);
-            if (this.tests.length > testNum + 1) this.runTests(testNum + 1);
+        return this._addCall(test[0], test[1], 'Test: ' + test[2])
+        .then(testPassed => {
+            this.passArray.push(testPassed);
+            if (this.tests.length > testNum + 1) 
+                return this.runTests(testNum + 1);
             else this._logResults();
         });
     }
-    public static run() {
-        this.runTests(0, true);
+    public static async run() {
+        return this.runTests(0, true);
     }
 }
