@@ -1,4 +1,5 @@
 import { GameType } from "./game-types";
+import { GamePlayer } from "./player-types";
 
 export interface NewGameResponseBody {
     name: string;
@@ -13,4 +14,11 @@ export interface NewGameResponse {
 export interface ErrorMessage {
     errorCode: number;
     message: string;
+}
+export interface LocalPlayerResponse {
+    status: number;
+    body: {
+        game: string;
+        player: GamePlayer;
+    } | ErrorMessage;
 }
