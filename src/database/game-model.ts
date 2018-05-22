@@ -4,23 +4,15 @@ import { GameType, OnlineGame, LocalGame } from "../typings/game-types";
 
 export class GameModels {
     // object id interface
-    private _objectId = Schema.Types.ObjectId;
-    // model type declaration
-    public player: Model<GamePlayerDoc>;
-    public onlineGame: Model<OnlineGame>;
-    public localGame: Model<LocalGame>;
-    // validators
-    private _playerTypeValidator = (value: number): boolean => {
-        return value === PlayerType.Computer || value === PlayerType.Local || value === PlayerType.Online;
-    }
-    private _uniqueGameNameValidator = (gameType: GameType): SchemaTypeOpts.AsyncValidateFn<string> => {
+    private static _objectId = Schema.Types.ObjectId;
+    private static _uniqueGameNameValidator = (gameType: GameType): SchemaTypeOpts.AsyncValidateFn<string> => {
         let nameMatch: LocalGame[] | OnlineGame[];
         if (gameType === GameType.Local) {
             return async (
                 value: string,
                 done: (result: boolean) => void
             ) => {
-                nameMatch = await this.localGame.find({name: value});
+                nameMatch = await GameModels.localGame.find({name: value});
                 return nameMatch.length === 0;
             }
         } else if (gameType === GameType.Online) {
@@ -28,13 +20,13 @@ export class GameModels {
                 value: string,
                 done: (result: boolean) => void
             ) => {
-                nameMatch = await this.onlineGame.find({name: value});
+                nameMatch = await GameModels.onlineGame.find({name: value});
                 return nameMatch.length === 0;
             }
         } else return async (value: string) => false;
     }
     // Schemas
-    private _playerSchema: Schema = new Schema({
+    private static _playerSchema: Schema = new Schema({
         name: {
             type: String,
             required: true
@@ -48,25 +40,22 @@ export class GameModels {
             default: false
         },
         type: {
-            type: String,
-            validate: {
-                validator: this._playerTypeValidator,
-                msg: 'Invalid player type'
-            }
+            type: Number,
+            default: PlayerType.Local
         }
     });
-    private _onlineGameSchema: Schema = new Schema({
+    private static _onlineGameSchema: Schema = new Schema({
         name: {
             type: String,
             required: true,
             validate : {
                 isAsync: true,
-                validator: this._uniqueGameNameValidator(GameType.Online),
+                validator: GameModels._uniqueGameNameValidator(GameType.Online),
                 msg: 'Online game with that name is in progress already'
             }
         },
         players: {
-            type: [this._objectId],
+            type: [GameModels._objectId],
             default: []
         },
         playerNum: {
@@ -76,18 +65,18 @@ export class GameModels {
             required: true
         }
     });
-    private _localGameSchema: Schema = new Schema({
+    private static _localGameSchema: Schema = new Schema({
         name: {
             type: String,
             required: true,
             validate : {
                 isAsync: true,
-                validator: this._uniqueGameNameValidator(GameType.Local),
+                validator: GameModels._uniqueGameNameValidator(GameType.Local),
                 msg: 'Local game with that name is in progress already'
             }
         },
         players: {
-            type: [this._playerSchema],
+            type: [GameModels._playerSchema],
             default: []
         },
         playerNum: {
@@ -97,9 +86,8 @@ export class GameModels {
             required: true
         }
     });
-    constructor() {
-        this.player = model<GamePlayerDoc>('LocalPlayer', this._playerSchema, 'LocalPlayers');
-        this.onlineGame =  model<OnlineGame>('OnlineGame', this._onlineGameSchema, 'OnlineGames');
-        this.localGame = model<LocalGame>('LocalGame', this._localGameSchema, 'LocalGames');
-    }
+    // model type declaration
+    public static player: Model<GamePlayerDoc> = model<GamePlayerDoc>('LocalPlayer', GameModels._playerSchema, 'LocalPlayers');
+    public static onlineGame: Model<OnlineGame> = model<OnlineGame>('OnlineGame', GameModels._onlineGameSchema, 'OnlineGames');
+    public static localGame: Model<LocalGame> = model<LocalGame>('LocalGame', GameModels._localGameSchema, 'LocalGames');
 }
