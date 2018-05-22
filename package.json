@@ -8,7 +8,8 @@
     "build_test": "rm -rf spec-dist && tsc -p spec-tsconfig.json",
     "test": "npm run build_test && nodemon -w  spec-dist ./spec-dist/spec/spec-runner.js && npm run clean",
     "clean": "rm -rf dist && rm -rf spec-dist",
-    "serve_dev": "npm run build && nodemon -w dist ./dist/main.js && npm run clean"
+    "serve_dev": "npm run build && nodemon -w dist ./dist/main.js && npm run clean",
+    "serve": "npm run build && node ./dist/main.js"
   },
   "repository": {
     "type": "git",
