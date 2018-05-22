@@ -19,6 +19,12 @@ export class CreateGame {
                 errorCode: 400,
                 message: "Request body must contain name, playerCount, and body"
             }
+        } else if (body.type === 1) {
+            res.status(406),
+            responseObj = {
+                errorCode: 406,
+                message: "Online games are not yet supported"
+            }
         } else {
             try {
                 responseObj = await CreateGame._gameDB.addGame(body);
