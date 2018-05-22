@@ -91,12 +91,10 @@ export class AddGameTestSuit extends TestSuit {
                 playerCount: 4
             },
             {
-                status: 201,
+                status: 406,
                 body: {
-                    name: 'My good online game',
-                    type: GameType.Online,
-                    players: [],
-                    playerNum: 4
+                    errorCode: 406,
+                    message: "Online games are not yet supported"
                 }
             }, "Good online game"
         ],
@@ -110,7 +108,7 @@ export class AddGameTestSuit extends TestSuit {
                 status: 406,
                 body: {
                     errorCode: 406,
-                    message: 'cannot have less then 2 players'
+                    message: "Online games are not yet supported"
                 }
             }, "online game with to few players"
         ],
@@ -124,7 +122,7 @@ export class AddGameTestSuit extends TestSuit {
                 status: 406,
                 body: {
                     errorCode: 406,
-                    message: 'cannot have more then 6 players'
+                    message: "Online games are not yet supported"
                 }
             }, 'Online game with to many players'
         ],
@@ -188,7 +186,7 @@ export class AddGameTestSuit extends TestSuit {
                 status: 406,
                 body: {
                     errorCode: 406,
-                    message: "Online game with that name is in progress already"
+                    message: "Online games are not yet supported"
                 }
             }, "Online Game with a name that already exists"
         ],
